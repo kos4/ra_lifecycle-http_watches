@@ -7,7 +7,7 @@ export default function Form({onSubmit}) {
       </div>
       <div className="form__group">
         <label htmlFor="timeZoneWatch">Временная зона</label>
-        <input type="text" id="timeZoneWatch" name="timeZoneWatch"/>
+        <input type="number" step="1" id="timeZoneWatch" name="timeZoneWatch"/>
       </div>
       <div className="form__group">
         <button>Добавить</button>
