@@ -1,25 +1,39 @@
-import logo from './logo.svg';
 import './App.css';
+import {useState} from "react";
+import Watch from "./components/Watch";
+import Form from "./components/Form";
 
-function App() {
+export default function App () {
+  const [times, addTime] = useState([]);
+
+  const handlerSubmit = (event) => {
+    event.preventDefault();
+    const formData = new FormData(event.target);
+    const data = Object.fromEntries(formData.entries());
+
+    addTime(times => [...times, {
+      id: new Date().getTime(),
+      title: data.nameWatch,
+      timezone: data.timeZoneWatch,
+    }]);
+  }
+
+  const handlerDelete = id => {
+    const newTimes = times.filter(item => item.id !== id);
+
+    addTime(newTimes);
+  };
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Form onSubmit={handlerSubmit}/>
+      <div className="watches">{
+        times.map(item => {
+          return (
+            <Watch key={item.id} id={item.id} name={item.title} timezone={item.timezone} onDelete={handlerDelete}/>
+          );
+        })
+      }</div>
     </div>
   );
 }
-
-export default App;
